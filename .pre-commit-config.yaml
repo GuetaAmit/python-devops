@@ -1,0 +1,28 @@
+repos:
+  # Black for Python formatting
+  - repo: https://github.com/psf/black
+    rev: 24.4.2 # latest stable version as of 2025
+    hooks:
+      - id: black
+        language_version: python3
+
+  # isort for import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  # flake8 for linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+
+  # Check for trailing whitespace, end of files, etc.
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json

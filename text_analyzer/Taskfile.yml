@@ -1,0 +1,58 @@
+version: "3"
+
+tasks:
+  lint:
+    desc: Run pre-commit hooks (ruff, formatting)
+    cmds:
+      - pre-commit run --all-files
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf dist build *.egg-info
+
+  build:
+    desc: Build package with specified version (default: 0.1.0)
+    vars:
+      ver: '{{.ver | default "0.1.0"}}'
+    cmds:
+      - |
+        sed -i 's/^version = .*/version = "{{.ver}}"/' ../pyproject.toml
+      - uv build
+
+  test:
+    desc: Install and run test script
+    cmds:
+      - uv pip install -e ..
+      - uv run python ../test_script/main.py
+
+  docker:build:
+    desc: Build Docker image
+    cmds:
+      - docker build -t text-analyzer:latest .
+
+  docker:run:
+    desc: Run container and execute tests
+    cmds:
+      - docker run --rm text-analyzer:latest
+
+  docker:clean:
+    desc: Remove Docker images and containers
+    cmds:
+      - docker rm -f $(docker ps -a -q) || true
+      - docker rmi -f text-analyzer:latest || true
+
+  jenkins:up:
+    desc: Start Jenkins server
+    cmds:
+      - docker-compose -f ../docker-compose.yml up -d jenkins
+
+  jenkins:down:
+    desc: Stop Jenkins server
+    cmds:
+      - docker-compose -f ../docker-compose.yml down
+
+  jenkins:logs:
+    desc: View Jenkins logs
+    cmds:
+      - docker logs -f jenkins

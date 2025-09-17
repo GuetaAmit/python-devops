@@ -45,7 +45,7 @@ This project is designed to help you practice modern Python packaging and DevOps
 1. Navigate to the `test_script/` directory
 2. Create a virtual environment and install the package you built earlier
 3. Run `main.py` to verify the package works correctly
-   
+
    **Note:** The `main.py` file should remain unchanged (except for code formatting if needed)
 
 ### Task 3: Modernize Package Configuration
