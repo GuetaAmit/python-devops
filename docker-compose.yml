@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"    # Jenkins UI
+      - "50000:50000"  # Jenkins agent port
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ./text_analyzer/CI:/var/jenkins_home/workspace/text_analyzer  # Mount repo for Jenkinsfile
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
